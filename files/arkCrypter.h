@@ -44,6 +44,8 @@ public:
 
 };
 
+#define lifeCrypter(__sth) LifetimeText(skCrypt(__sth))
+
 /*________________________________________________________________________________
 
 MIT License
