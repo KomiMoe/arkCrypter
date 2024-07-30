@@ -12,6 +12,12 @@ skCrypter
 							*Not removing this part is appreciated*
 ____________________________________________________________________________________________________________*/
 
+#if defined(_MSC_VER)
+#define ALWAYS_INLINE __forceinline
+#else
+#define ALWAYS_INLINE __attribute__((always_inline))
+#endif
+
 #ifdef _KERNEL_MODE
 	namespace std
 	{
@@ -61,27 +67,27 @@ namespace skc
 	class skCrypter
 	{
 	public:
-		__forceinline constexpr skCrypter(T* data)
+		ALWAYS_INLINE constexpr skCrypter(T* data)
 		{		
 			crypt(data);
 		}
 
-		__forceinline T* get()
+		ALWAYS_INLINE T* get()
 		{
 			return _storage;
 		}
 
-		__forceinline int size() // (w)char count
+		ALWAYS_INLINE int size() // (w)char count
 		{
 			return _size;
 		}
 
-		__forceinline  char key()
+		ALWAYS_INLINE char key()
 		{
 			return _key1;
 		}
 
-		__forceinline  T* encrypt()
+		ALWAYS_INLINE T* encrypt()
 		{
 			if (!isEncrypted())
 				crypt(_storage);
@@ -89,7 +95,7 @@ namespace skc
 			return _storage;
 		}
 
-		__forceinline  T* decrypt()
+		ALWAYS_INLINE T* decrypt()
 		{
 		        _pStorage = reinterpret_cast<void *>(reinterpret_cast<size_t>(&_storage[_size]) - _size);
 			if (isEncrypted())
@@ -98,12 +104,12 @@ namespace skc
 			return static_cast<T *>(_pStorage);
 		}
 
-		__forceinline bool isEncrypted()
+		ALWAYS_INLINE bool isEncrypted()
 		{
 			return _storage[_size - 1] != 0;
 		}
 
-		__forceinline void clear() // set full storage to 0
+		ALWAYS_INLINE void clear() // set full storage to 0
 		{
 			for (int i = 0; i < _size; i++)
 			{
@@ -111,13 +117,13 @@ namespace skc
 			}
 		}
 
-		__forceinline operator T* ()
+		ALWAYS_INLINE operator T* ()
 		{
 		         return decrypt();
 		}
 		
 	private:
-		__forceinline constexpr void crypt(T* data)
+		ALWAYS_INLINE constexpr void crypt(T* data)
 		{
 			for (int i = 0; i < _size; i++)
 			{
