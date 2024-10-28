@@ -111,9 +111,11 @@ namespace skc
 
 		ALWAYS_INLINE void clear() // set full storage to 0
 		{
+			_pStorage = reinterpret_cast<void *>(reinterpret_cast<size_t>(&_storage[_size]) - _size);
+
 			for (int i = 0; i < _size; i++)
 			{
-				_storage[i] = 0;
+				static_cast<T *>(_pStorage)[i] = 0;
 			}
 		}
 
