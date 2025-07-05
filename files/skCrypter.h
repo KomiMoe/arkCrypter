@@ -106,7 +106,7 @@ namespace skc
 
 		ALWAYS_INLINE bool isEncrypted()
 		{
-			return _storage[_size - 1] != 0;
+			return isEnc;
 		}
 
 		ALWAYS_INLINE void clear() // set full storage to 0
@@ -131,8 +131,10 @@ namespace skc
 			{
 				_storage[i] = data[i] ^ ((_key1 + i % (1 + _key2)) + 1);
 			}
+			isEnc = !isEnc;
 		}	
 
+		bool isEnc = false;
 		void* _pStorage = nullptr;
 		T _storage[_size]{};
 	};

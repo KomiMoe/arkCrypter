@@ -16,14 +16,14 @@ ________________________________________________________________________________
 
 template<typename T> class LifetimeText
 {
-	T& t;
+	T t;
 
 public:
-	LifetimeText(T&& t) : t(t)
+	LifetimeText(T&& t) : t { std::move(t) }
 	{
 	}
 
-	LifetimeText(T& t) : t(t)
+	LifetimeText(T& t) : t { t }
 	{
 	}
 
