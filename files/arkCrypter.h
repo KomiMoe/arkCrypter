@@ -14,6 +14,20 @@ ________________________________________________________________________________
 
 #include "skCrypter.h"
 
+#ifdef _KERNEL_MODE
+namespace std
+{
+	template <class _Ty>
+	using remove_reference_t = typename remove_reference<_Ty>::type;
+
+    template <class _Ty>
+    constexpr remove_reference_t<_Ty>&& move(_Ty&& _Arg) noexcept {
+		return static_cast<remove_reference_t<_Ty>&&>(_Arg);
+	}
+
+}
+#endif
+
 template<typename T> class LifetimeText
 {
 	T t;

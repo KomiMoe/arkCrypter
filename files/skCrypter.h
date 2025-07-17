@@ -97,7 +97,7 @@ namespace skc
 
 		ALWAYS_INLINE T* decrypt()
 		{
-		        _pStorage = reinterpret_cast<void *>(reinterpret_cast<size_t>(&_storage[_size]) - _size);
+		    _pStorage = reinterpret_cast<void *>(reinterpret_cast<size_t>(&_storage[_size]) - _size * sizeof(T));
 			if (isEncrypted())
 				crypt(static_cast<T *>(_pStorage));
 
@@ -111,7 +111,7 @@ namespace skc
 
 		ALWAYS_INLINE void clear() // set full storage to 0
 		{
-			_pStorage = reinterpret_cast<void *>(reinterpret_cast<size_t>(&_storage[_size]) - _size);
+			_pStorage = reinterpret_cast<void *>(reinterpret_cast<size_t>(&_storage[_size]) - _size * sizeof(T));
 
 			for (int i = 0; i < _size; i++)
 			{
@@ -134,9 +134,9 @@ namespace skc
 			isEnc = !isEnc;
 		}	
 
+		T _storage[_size]{};
 		bool isEnc = false;
 		void* _pStorage = nullptr;
-		T _storage[_size]{};
 	};
 }
 
